@@ -1,0 +1,1 @@
+{"name":"homebridge-casamenu-ir","version":"1.0.0","description":"CasaMenu Tuya IR power bridge","main":"index.js","keywords":["homebridge-plugin"],"engines":{"node":">=22","homebridge":">=1.8.0"}}

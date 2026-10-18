@@ -1,0 +1,13 @@
+const assert=require('node:assert/strict');
+const command=require('../HomeKit/tuya-command.cjs');
+const functions=['PowerOn','PowerOff','T','F','M'].map(code=>({code}));
+assert.deepEqual(command('off',null,functions),{code:'PowerOff',value:'PowerOff'});
+assert.deepEqual(command('on',null,functions),{code:'PowerOn',value:'PowerOn'});
+assert.deepEqual(command('temperature','22',functions),{code:'T',value:22});
+for(const n of ['NaN','15','31','22.5'])assert.throws(()=>command('temperature',n,functions));
+assert.deepEqual(command('mode','dry',functions),{code:'M',value:4});
+assert.deepEqual(command('fan','high',functions),{code:'F',value:3});
+assert.throws(()=>command('on',null,[]));
+assert.throws(()=>command('turbo','on',functions));
+assert.throws(()=>command('mode','invalid',functions));
+console.log('Tuya: mapeamento, limites e funções indisponíveis validados.');
