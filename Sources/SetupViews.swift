@@ -27,7 +27,7 @@ struct InfraredSetupView:View {
             SetupCard(number:"1",title:"Sua conta Tuya",subtitle:accountLinked ? "Autorização encontrada neste Mac" : "Conecte a conta que você já usa no celular") {
                 Label(accountLinked ? "Conta autorizada" : "Aguardando conexão",systemImage:accountLinked ? "checkmark.circle.fill" : "qrcode").foregroundStyle(accountLinked ? .green : CasaStyle.accent)
                 Text(accountLinked ? "Você já autorizou o acesso pelo celular. Não precisa repetir o QR." : "Use o mesmo aplicativo que já controla seus aparelhos. A conexão é feita por QR Code.").foregroundStyle(.secondary)
-                if !accountLinked { Button("Conectar Tuya") { NSWorkspace.shared.open(URL(string:"http://127.0.0.1:8581/plugins")!) } }
+                if !accountLinked { BridgeSetupControls() }
             }
             SetupCard(number:"2",title:"Ar do escritório",subtitle:"Smart IR · controle pelo Tuya funcionando") {
                 Label(store.tuyaReady ? "Pronto para controlar" : "Conexão necessária",systemImage:store.tuyaReady ? "checkmark.circle.fill" : "clock").foregroundStyle(store.tuyaReady ? .green : .orange)
@@ -56,11 +56,10 @@ struct AppleHomeSetupView:View {
                 Text("O CasaMenu mantém o controle direto pelo Wi-Fi. O Homebridge publica o mesmo ar para o ecossistema Apple. Não é necessário informar sua senha da Apple ao nosso aplicativo.").font(.callout).foregroundStyle(.secondary)
             }
             SetupCard(number:"01",title:"Ponte HomeKit",subtitle:store.bridgeStatus) {
-                HStack { Button("Iniciar ponte local") { let script = Bundle.main.bundleURL.deletingLastPathComponent().appendingPathComponent("HomeKit/start.command"); if FileManager.default.fileExists(atPath:script.path) { NSWorkspace.shared.open(script) } else { store.bridgeStatus = "Mantenha a pasta HomeKit junto do aplicativo para iniciar a ponte." } }; Button("Verificar ponte") { Task { await store.checkBridge() } }; Button("Abrir painel Homebridge") { NSWorkspace.shared.open(URL(string:"http://127.0.0.1:8581")!) }.buttonStyle(.borderedProminent).tint(CasaStyle.accent) }
-                Text("O painel local gerencia a ponte. Instalação e execução não comprovam que o acessório já foi pareado no Casa.").font(.caption).foregroundStyle(.secondary)
+                BridgeSetupControls()
             }
             SetupCard(number:"02",title:"Adicionar no Casa do iPhone",subtitle:"Mantenha o iPhone e o Mac na mesma rede durante o pareamento.") {
-                Text("Abra Casa → + → Adicionar acessório. Escaneie o QR da ponte no painel Homebridge. Como alternativa, toque em Mais opções, escolha CasaMenu e informe o código abaixo.").font(.callout).lineSpacing(5)
+                Text("Abra Casa → + → Adicionar acessório. Use Configurar e mostrar QR para escanear o QR da ponte. Como alternativa, toque em Mais opções, escolha CasaMenu e informe o código abaixo.").font(.callout).lineSpacing(5)
                 if !store.homekitCode.isEmpty {
                     Text(store.homekitCode).font(.system(size:30,weight:.medium,design:.monospaced)).tracking(4).padding(18).frame(maxWidth:.infinity).background(.black.opacity(0.2),in:RoundedRectangle(cornerRadius:15)).textSelection(.enabled)
                     Text("Código privado desta ponte. Use somente no Casa para o pareamento.").font(.caption).foregroundStyle(.secondary)

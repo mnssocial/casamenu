@@ -9,3 +9,5 @@ swiftc -parse-as-library -D ENGINE_TEST -swift-version 5 Sources/*.swift Tests/E
 node Tests/TuyaTests.cjs
 
 node Tests/HomeKitTests.cjs
+
+node Tests/SetupTests.cjs

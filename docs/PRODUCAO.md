@@ -19,7 +19,7 @@ Objetivo: instalar no Mac, abrir, autorizar as conexões e controlar a casa. Ter
 - **Alexa:** integração separada; preservar vínculos existentes do usuário; avaliar suporte por dispositivo antes de oferecer conexão. Echo não é central Apple.
 - **Validação:** instalação em usuário/Mac limpo, reinício real, troca de rede, repouso/despertar, credencial expirada, perda de internet, múltiplos aparelhos e atualização sem perder pareamento.
 
-## Estado atual
-Protótipo funcional neste Mac, não uma versão de produção distribuível. Gree e comandos Tuya do escritório funcionam. Ponte publica quarto, luzes e interruptor do escritório; Casa/Siri ainda sem pareamento validado. Testes automatizados e comandos da ponte passaram; testes de instalação limpa, reinício completo e estabilidade prolongada pendentes.
+## Estado atual — 0.7.0
+Aplicativo portátil com runtime Node e dependências incluídos, gerenciamento da ponte sem Terminal e painel de configuração/QR incorporado. Uma ponte existente é reutilizada, com dados e pareamentos preservados. Em instalação nova, a ponte gerenciada acompanha a execução do aplicativo.
 
-A consulta Tuya ainda seleciona um ar do cache e a interface mantém nomes fixos desta casa. Isso precisa ser generalizado antes de oferecer instalação para outras casas. O fluxo QR ainda depende do painel Homebridge; deve ser incorporado ao aplicativo. O pacote atual não deve ser anunciado como autossuficiente.
+A consulta Tuya ainda seleciona um ar do cache e a interface mantém cômodos da instalação piloto. A autorização integrada usa a interface Homebridge em WebKit, não um assistente nativo próprio. Assinatura Developer ID, notarização, testes em outro Mac, reinício e estabilidade prolongada continuam pendentes. Não anunciar a versão como distribuição comercial final.

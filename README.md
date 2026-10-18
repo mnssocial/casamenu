@@ -2,7 +2,7 @@
 
 Aplicativo nativo para macOS que controla aparelhos domésticos pela barra de menus e por uma janela de administração. SwiftUI, Apple Silicon e macOS 14 ou posterior.
 
-**Estado: protótipo funcional, ainda não um instalador de produção.** A instalação automática, o fluxo QR integrado ao aplicativo e a validação em um Mac limpo continuam pendentes.
+**Versão 0.7.0: aplicativo portátil para uso pessoal.** Runtime e ponte incluídos, inicialização sem Terminal e configuração/QR em janela interna. Veja [distribuição e limites](docs/DISTRIBUICAO.md). Notarização, um assistente Tuya inteiramente nativo e validação em outro Mac continuam pendentes.
 
 ![Ícone do CasaMenu](Assets/AppIcon.png)
 
@@ -57,7 +57,7 @@ Dados privados ficam em `~/Library/Application Support/CasaMenu/homebridge-data`
 - O helper seleciona o aparelho pelo arquivo privado de seleção ou pelo primeiro IR compatível no cache. Não há seleção completa de vários aparelhos no onboarding.
 - Turbo e oscilação do IR dependem de comandos reais disponibilizados pela Tuya.
 - Alexa não está implementada. As luzes foram descobertas, mas os comandos da instalação piloto falharam e precisam de investigação.
-- Instalação nova, reinício completo, repouso/despertar e estabilidade prolongada não estão certificados pelos testes atuais.
+- Reinício completo, repouso/despertar e estabilidade prolongada não estão certificados pelos testes atuais.
 - O Mac deve estar ligado e acessível para que a ponte responda. Acesso remoto e requisitos de centrais Apple precisam ser configurados conforme o cenário.
 
 ## Testes e distribuição

@@ -23,3 +23,5 @@ casamenu-device-selection.json
 *.p12
 *.pem
 *.key
+
+dist/

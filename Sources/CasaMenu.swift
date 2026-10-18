@@ -90,7 +90,7 @@ struct HAState: Decodable {
             var request = URLRequest(url:URL(string:"http://127.0.0.1:8581")!); request.timeoutInterval = 3
             let (_,response) = try await URLSession.shared.data(for:request)
             bridgeStatus = (response as? HTTPURLResponse)?.statusCode == 200 ? "Painel Homebridge em execução · pareamento no Casa pendente de verificação" : "Painel respondeu · confira a configuração"
-        } catch { bridgeStatus = "Painel Homebridge não respondeu. Inicie HomeKit/start.command na pasta do projeto." }
+        } catch { bridgeStatus = "Ponte indisponível. Use Preparar conexão na tela Apple Casa." }
         let candidates = AppPaths.storageFolders.map { $0.appendingPathComponent("config.json") }
         homekitCode = ""
         for url in candidates {
@@ -298,6 +298,7 @@ struct HAState: Decodable {
 
 #if !ENGINE_TEST
 final class CasaAppDelegate: NSObject, NSApplicationDelegate {
+    func applicationWillTerminate(_ notification: Notification) { BridgeService.shared.stopOwnedProcess() }
     func applicationDidFinishLaunching(_ notification: Notification) {
         NSApp.setActivationPolicy(.regular)
         if let url = Bundle.main.url(forResource: "CasaMenu", withExtension: "icns"), let icon = NSImage(contentsOf: url) {
@@ -309,7 +310,7 @@ final class CasaAppDelegate: NSObject, NSApplicationDelegate {
     @NSApplicationDelegateAdaptor(CasaAppDelegate.self) var appDelegate
     @StateObject var store = HomeStore()
     var body: some Scene {
-        WindowGroup("Casa", id:"main") { Dashboard().environmentObject(store).task { await store.restoreConnections() }.frame(minWidth:1000,minHeight:720).preferredColorScheme(.dark).tint(CasaStyle.accent) }.defaultSize(width:1160,height:800)
+        WindowGroup("Casa", id:"main") { Dashboard().environmentObject(store).task { await BridgeService.shared.restore(); await store.restoreConnections() }.frame(minWidth:1000,minHeight:720).preferredColorScheme(.dark).tint(CasaStyle.accent) }.defaultSize(width:1160,height:800)
         Window("Controle rápido",id:"quick") { QuickPanel().environmentObject(store) }.windowResizability(.contentSize)
         MenuBarExtra { QuickPanel().environmentObject(store) } label: { Image(nsImage:CasaBrand.menuIcon).accessibilityLabel("CasaMenu") }.menuBarExtraStyle(.window)
     }
